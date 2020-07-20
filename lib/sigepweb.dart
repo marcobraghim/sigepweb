@@ -1,7 +1,5 @@
 library sigepweb;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/core.dart';
+export 'src/preco_prazo.dart';
+export 'src/contrato.dart';

@@ -2,7 +2,7 @@ name: sigepweb
 description: Utilize serviços dos Correios no seu App
 version: 0.0.1
 author: Marco A. Braghim <marco.a.braghim>
-homepage:
+homepage: https://github.com/marcobraghim/sigepweb
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,7 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  xml2json: any
+  xml2json: ^4.2.0
+  dio: ^3.0.9
   http: any
 
 dev_dependencies:
