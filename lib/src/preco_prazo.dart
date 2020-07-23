@@ -7,7 +7,7 @@ import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
 import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
 import 'package:xml2json/xml2json.dart';
 
-import 'contrato.dart';
+import 'models/contrato.dart';
 
 class SigepwebPrecoPrazo {
   final _endpoint = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';

@@ -1,9 +1,24 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
+import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
 
-import '../lib/src/utils.dart';
+void main() {
+  group('Precos e prazos -', () {
+    var sigep = SigepwebPrecoPrazo(isDebug: true);
 
-main() {
+    test('testa tipo de retorno', () async {
+      var calcPrecoPrazo = await sigep.calcPrecoPrazo(
+        cepOrigem: '70002900',
+        cepDestino: '04547000',
+        valorPeso: 1,
+      );
+
+      expect(
+          calcPrecoPrazo.runtimeType, List<CalcPrecoPrazoItem>().runtimeType);
+    });
+  });
+
   group('Utils - String para double:', () {
     test("'27,80' para 27.80", () {
       expect(SgUtils.toDouble('27,80'), 27.80);

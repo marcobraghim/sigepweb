@@ -1,6 +1,6 @@
 library sigepweb;
 
-import 'contrato.dart';
+import 'models/contrato.dart';
 
 class Sigepweb {
   String _homEndpoint =
