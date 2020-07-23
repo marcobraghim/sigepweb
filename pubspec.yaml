@@ -1,7 +1,7 @@
 name: sigepweb
 description: Utilize serviços dos Correios no seu App
 version: 0.0.1
-author: Marco A. Braghim <marco.a.braghim>
+repository: https://github.com/marcobraghim/sigepweb
 issue_tracker: https://github.com/marcobraghim/sigepweb/issues
 
 environment:
