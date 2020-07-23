@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
+import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
 import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
 
 void main() {
@@ -44,6 +45,27 @@ void main() {
 
     test('Envelope', () {
       expect(SgUtils.codFormato(FormatoEncomenda.envelope), '3');
+    });
+  });
+
+  group('Formata CEP', () {
+    test('com hifen', () {
+      expect(SgUtils.formataCEP('12345-678'), '12345678');
+    });
+
+    test('correto', () {
+      expect(SgUtils.formataCEP('12345678'), '12345678');
+    });
+
+    test('muito longo', () {
+      expect(SgUtils.formataCEP('12345-6789'), '12345678');
+    });
+
+    test('nada a ver', () {
+      expect(
+        () => SgUtils.formataCEP('654as6df4'),
+        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+      );
     });
   });
 }

@@ -32,10 +32,13 @@ class SigepwebPrecoPrazo {
   /// Result into a list of [CalcPrecoPrazoItem].
   ///
   Future<List<CalcPrecoPrazoItem>> calcPrecoPrazo({
-    List<String> servicosList = const [sedexAVista_04014, pacAVista_04510],
+    List<String> servicosList = const [
+      ServicosPostagem.sedexAVista_04014,
+      ServicosPostagem.pacAVista_04510,
+    ],
     String cepOrigem,
     String cepDestino,
-    double valorPeso,
+    double valorPeso = .5,
     FormatoEncomenda formatoEncomenda = FormatoEncomenda.caixa,
     int comprimento = 20,
     int altura = 20,
@@ -53,8 +56,8 @@ class SigepwebPrecoPrazo {
         'nCdEmpresa': contrato.codAdmin,
         'sDsSenha': contrato.senha,
         'nCdServico': servicosList.join(','),
-        'sCepOrigem': cepOrigem,
-        'sCepDestino': cepDestino,
+        'sCepOrigem': SgUtils.formataCEP(cepOrigem),
+        'sCepDestino': SgUtils.formataCEP(cepDestino),
         'nVlPeso': valorPeso.toString(),
         'nCdFormato': SgUtils.codFormato(formatoEncomenda),
         'nVlComprimento': comprimento.toString(),

@@ -16,6 +16,17 @@ class SgUtils {
     return double.tryParse(formatted) ?? 0.0;
   }
 
+  /// Format cep number to be only numbers with 8 positions only.
+  static String formataCEP(String cep) {
+    cep = cep.replaceAll(RegExp(r'[^0-9]'), '');
+
+    if (cep.length < 8) {
+      throw SigepwebRuntimeError(
+          'CEP code number is wrong. It must be always 8 numbers');
+    }
+    return cep.substring(0, 8);
+  }
+
   /// With this we can avoid magic number, because Correios
   /// will be expecting 1, 2 and 3.
   static String codFormato(FormatoEncomenda formato) {

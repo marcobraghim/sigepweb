@@ -3,11 +3,11 @@ library sigepweb;
 import 'models/contrato.dart';
 
 class Sigepweb {
-  String _homEndpoint =
-      'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
+  // String _homEndpoint =
+  //     'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
-  String _prodEndpoint =
-      'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
+  // String _prodEndpoint =
+  //     'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
   final bool isDebug;
   final SigepContrato contrato;
@@ -22,12 +22,12 @@ class Sigepweb {
   buscaServicos() {}
 
   consultaCEP({String cep}) {
-    var endpoint = _getEndpoint();
+    // var endpoint = _getEndpoint();
   }
 
   verificaDisponibilidadeServico() {}
 
-  String _getEndpoint() {
-    return isDebug ? _homEndpoint : _prodEndpoint;
-  }
+  // String _getEndpoint() {
+  //   return isDebug ? _homEndpoint : _prodEndpoint;
+  // }
 }
