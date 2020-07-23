@@ -5,3 +5,7 @@
 # 0.0.2
 
 * Name of the service with model CalcPrecoPrazoItem and method for test CEP numbers.
+
+# 0.0.3
+
+* Improving pub points of the package

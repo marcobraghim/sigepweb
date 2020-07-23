@@ -1,6 +1,6 @@
 name: sigepweb
-description: Utilize serviços dos Correios no seu App
-version: 0.0.2
+description: Utilize serviços dos Correios no seu App como buscar CEP ou calcular preços e prazos de encomendas
+version: 0.0.3
 repository: https://github.com/marcobraghim/sigepweb
 issue_tracker: https://github.com/marcobraghim/sigepweb/issues
 
