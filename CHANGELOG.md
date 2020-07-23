@@ -9,3 +9,7 @@
 # 0.0.3
 
 * Improving pub points of the package
+
+# 0.0.4
+
+* Providing an example to the package
