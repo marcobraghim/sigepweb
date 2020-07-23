@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:sigepweb/sigepweb.dart';
+import 'package:sigepweb/src/constants.dart';
+import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
+import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
 import 'package:xml2json/xml2json.dart';
 
 import 'contrato.dart';
@@ -11,51 +15,94 @@ class SigepwebPrecoPrazo {
   final dio = Dio();
 
   final bool isDebug;
-  final SigepContrato contrato;
+  SigepContrato contrato;
 
-  SigepwebPrecoPrazo(
-    this.contrato, {
+  /// If a [contrato] is null so [isDebug] must be true
+  ///
+  SigepwebPrecoPrazo({
+    this.contrato,
     this.isDebug = false,
-  });
+  }) : assert(contrato != null || isDebug) {
+    if (isDebug) {
+      contrato = SigepContrato.semContrato();
+    }
+  }
 
-  calcPrecoPrazo() async {
-    //
-    Response<String> resp =
-        await dio.get("$_endpoint/CalcPrecoPrazo", queryParameters: {
-      'nCdEmpresa': '08082650',
-      'sDsSenha': '564321',
-      'nCdServico': '04510,04014',
-      'sCepOrigem': '70002900',
-      'sCepDestino': '04547000',
-      'nVlPeso': '1',
-      'nCdFormato': '1',
-      'nVlComprimento': '20',
-      'nVlAltura': '20',
-      'nVlLargura': '20',
-      'nVlDiametro': '0',
-      'sCdMaoPropria': 'N',
-      'nVlValorDeclarado': '0',
-      'sCdAvisoRecebimento': 'N',
-      'StrRetorno': 'xml',
-      'nIndicaCalculo': '3'
-    });
+  ///
+  /// Result into a list of [CalcPrecoPrazoItem].
+  ///
+  Future<List<CalcPrecoPrazoItem>> calcPrecoPrazo({
+    List<String> servicosList = const [sedexAVista_04014, pacAVista_04510],
+    String cepOrigem,
+    String cepDestino,
+    double valorPeso,
+    FormatoEncomenda formatoEncomenda = FormatoEncomenda.caixa,
+    int comprimento = 20,
+    int altura = 20,
+    int largura = 20,
+    int diametro = 0,
+    bool maosPropria = false,
+    double valorDeclarado = 0.0,
+    bool avisoRecebimento = false,
+  }) async {
+    List<CalcPrecoPrazoItem> result = [];
 
-    Map result;
+    try {
+      Response<String> resp =
+          await dio.get("$_endpoint/CalcPrecoPrazo", queryParameters: {
+        'nCdEmpresa': contrato.codAdmin,
+        'sDsSenha': contrato.senha,
+        'nCdServico': servicosList.join(','),
+        'sCepOrigem': cepOrigem,
+        'sCepDestino': cepDestino,
+        'nVlPeso': valorPeso.toString(),
+        'nCdFormato': SgUtils.codFormato(formatoEncomenda),
+        'nVlComprimento': comprimento.toString(),
+        'nVlAltura': altura.toString(),
+        'nVlLargura': largura.toString(),
+        'nVlDiametro': diametro.toString(),
+        'sCdMaoPropria': maosPropria ? 'S' : 'N',
+        'nVlValorDeclarado': valorDeclarado.toString(),
+        'sCdAvisoRecebimento': avisoRecebimento ? 'S' : 'N',
+        'StrRetorno': 'xml',
+        'nIndicaCalculo': '3'
+      });
 
-    print(resp.data);
+      if (resp.statusCode != 200 || resp.data.isEmpty) {
+        throw SigepwebRuntimeError();
+      }
 
-    if (resp.statusCode == 200 && resp.data.isNotEmpty) {
+      // Captura o resultado e faz o parse
+      // de XML para JSON
       var xml2json = Xml2Json();
       xml2json.parse(resp.data);
+      Map<String, dynamic> apiResult = json.decode(xml2json.toGData());
 
-      result = json.decode(xml2json.toGData());
-    } else {
-      print(resp.data);
+      if (apiResult['cResultado'] == null ||
+          apiResult['cResultado']['Servicos'] == null ||
+          apiResult['cResultado']['Servicos']['cServico'] == null) {
+        throw SigepwebRuntimeError(
+            'Xml result format isn\'t with expected format');
+      }
+
+      List servicos = apiResult['cResultado']['Servicos']['cServico'];
+      for (Map<String, dynamic> i in servicos) {
+        result.add(CalcPrecoPrazoItem.fromJson(i));
+      }
+    } on Exception catch (e, st) {
+      //
+      // Se entrar nesta exception entao o problema nao foi
+      // necessariamente no package, mas nas suas dependencias
+      // como o Dio (talvez conexao de fato), Xml2Json, etc...
+      //
+      if (isDebug) {
+        print(e);
+        print(st);
+      }
+
+      throw SigepwebRuntimeError(
+          'Internal error Sigepweb package. Please consider open an issue into https://github.com/marcobraghim/sigepweb/issues\nOriginal exception was: ${e.toString()}');
     }
     return result;
   }
-
-  calcPreco() {}
-
-  calcPrazo() {}
 }
