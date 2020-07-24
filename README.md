@@ -25,7 +25,7 @@ Ajude este package a crescer e chegar ao ponto de oferecer todos os serviços qu
 ### Calcule Precos e Prazos para suas encomendas
 
 ```dart
-var sigep = SigepwebPrecoPrazo(contrato: SigepContrato.semContrato());
+var sigep = Sigepweb(contrato: SigepContrato.semContrato());
 
 var calcPrecoPrazo = await sigep.calcPrecoPrazo(
   cepOrigem: '70002900',
