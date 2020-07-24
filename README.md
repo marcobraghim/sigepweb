@@ -42,6 +42,6 @@ for (var item in calcPrecoPrazo) {
 
 ## Métodos já funcionando
 
- - [x] calcPrecoPrazo
- - [x] consultaCEP
+ - calcPrecoPrazo
+ - consultaCEP
  

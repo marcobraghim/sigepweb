@@ -22,3 +22,7 @@
 # 0.0.6
 
 * Docs and example update
+
+# 0.0.7
+
+* Docs update
