@@ -1,3 +1,7 @@
+# 1.0.1
+
+* Exposing models
+
 # 1.0.0
 
 * Release first version stable, even only with 2 methods available
