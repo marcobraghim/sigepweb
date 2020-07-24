@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
 import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
-import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
+import 'package:sigepweb/src/models/calc_preco_prazo_item_model.dart';
 import 'package:sigepweb/src/models/consulta_cep_model.dart';
 
 void main() {
@@ -17,7 +17,9 @@ void main() {
       );
 
       expect(
-          calcPrecoPrazo.runtimeType, List<CalcPrecoPrazoItem>().runtimeType);
+        calcPrecoPrazo.runtimeType,
+        List<CalcPrecoPrazoItemModel>().runtimeType,
+      );
     });
   });
 

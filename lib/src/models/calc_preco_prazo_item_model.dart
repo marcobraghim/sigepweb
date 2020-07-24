@@ -4,7 +4,7 @@ import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
 
 /// Model to the return of service CalcPrecoPrazo
-class CalcPrecoPrazoItem {
+class CalcPrecoPrazoItemModel {
   String nome;
   String codigo;
   double valor;
@@ -20,7 +20,7 @@ class CalcPrecoPrazoItem {
   Map obsFim;
 
   /// Constructor from json result
-  CalcPrecoPrazoItem.fromJson(Map<String, dynamic> json)
+  CalcPrecoPrazoItemModel.fromJson(Map<String, dynamic> json)
       : codigo = json['Codigo']['\$t']?.padLeft(5, '0'),
         valor = SgUtils.toDouble(json['Valor']['\$t']),
         prazoEntrega = int.tryParse(json['PrazoEntrega']['\$t']) ?? 0,

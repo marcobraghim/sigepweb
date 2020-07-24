@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
-import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
+import 'package:sigepweb/src/models/calc_preco_prazo_item_model.dart';
 import 'package:sigepweb/src/models/consulta_cep_model.dart';
 import 'package:xml2json/xml2json.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +37,7 @@ class Sigepweb {
   }
 
   /// Result into a list of [CalcPrecoPrazoItem].
-  Future<List<CalcPrecoPrazoItem>> calcPrecoPrazo({
+  Future<List<CalcPrecoPrazoItemModel>> calcPrecoPrazo({
     List<String> servicosList = const [
       ServicosPostagem.sedexAVista_04014,
       ServicosPostagem.pacAVista_04510,
@@ -60,7 +60,7 @@ class Sigepweb {
     final String endpoint =
         'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
 
-    List<CalcPrecoPrazoItem> result = [];
+    List<CalcPrecoPrazoItemModel> result = [];
 
     try {
       Response<String> resp =
@@ -102,7 +102,7 @@ class Sigepweb {
 
       List servicos = apiResult['cResultado']['Servicos']['cServico'];
       for (Map<String, dynamic> i in servicos) {
-        result.add(CalcPrecoPrazoItem.fromJson(i));
+        result.add(CalcPrecoPrazoItemModel.fromJson(i));
       }
     } on Exception catch (e, st) {
       //
