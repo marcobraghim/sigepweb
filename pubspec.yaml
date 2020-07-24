@@ -1,6 +1,6 @@
 name: sigepweb
 description: Utilize serviços dos Correios no seu App como buscar CEP ou calcular preços e prazos de encomendas
-version: 0.0.7
+version: 0.0.8
 repository: https://github.com/marcobraghim/sigepweb
 issue_tracker: https://github.com/marcobraghim/sigepweb/issues
 
@@ -15,3 +15,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_coverage_badge: ^0.0.1+1
