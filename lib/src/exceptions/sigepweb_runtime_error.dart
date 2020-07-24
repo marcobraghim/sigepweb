@@ -1,3 +1,4 @@
+/// Identify that the error throws from this library
 class SigepwebRuntimeError implements Error {
   final String msg;
 

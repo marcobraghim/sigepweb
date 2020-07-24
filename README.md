@@ -8,7 +8,7 @@ O Sigepweb é um sistema dos Correios criado para prover os serviços desta "inc
 
 > Para o gerenciamento das postagens, os Correios oferecem aos clientes de contrato o sistema SIGEP Web.
 > O SIGEP Web auxilia na preparação das encomendas, gerando rótulos com códigos de rastreamento e encaminha essas informações à unidade dos Correios para postagem dos pacotes com maior agilidade.
-> [Confira aqui](http://www.correios.com.br/logistica/e-commerce/solucoes-correios-para-o-e-commerce)
+> [Confira aqui](https://www.correios.com.br/logistica/e-commerce/solucoes-correios-para-o-e-commerce)
 
 ## A integração está completa?
 

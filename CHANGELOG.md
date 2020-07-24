@@ -18,3 +18,7 @@
 
 * Joined classes `SigepwebPrecoPrazo` with `Sigepweb`, it means only one main class to use all methods
 * Service consultaCEP can already be used
+
+# 0.0.6
+
+* Docs and example update

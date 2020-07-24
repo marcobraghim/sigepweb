@@ -1,0 +1,17 @@
+name: example
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sigepweb:
+    path: ../
+
+dev_dependencies:
+
+flutter:
+  uses-material-design: true

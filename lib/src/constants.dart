@@ -1,3 +1,4 @@
+/// Formats for order type
 enum FormatoEncomenda { caixa, rolo, envelope }
 
 /// Bellow we have the values of services provided
