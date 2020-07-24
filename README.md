@@ -1,5 +1,7 @@
 # sigepweb
 
+![Coverage](https://raw.githubusercontent.com/marcobraghim/sigepweb/master/coverage_badge.svg?sanitize=true)
+
 Utilize serviços dos Correios no seu App como buscar CEP ou calcular preços e prazos de encomendas
 
 ## O que é isso?
