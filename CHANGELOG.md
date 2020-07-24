@@ -1,3 +1,7 @@
+# 1.0.0
+
+* Release first version stable, even only with 2 methods available
+
 # 0.0.8
 
 * Coverage update
