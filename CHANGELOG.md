@@ -13,3 +13,8 @@
 # 0.0.4
 
 * Providing an example to the package
+
+# 0.0.5
+
+* Joined classes `SigepwebPrecoPrazo` with `Sigepweb`, it means only one main class to use all methods
+* Service consultaCEP can already be used

@@ -3,11 +3,12 @@ import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
 import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
 import 'package:sigepweb/src/models/calc_preco_prazo_item.dart';
+import 'package:sigepweb/src/models/consulta_cep_model.dart';
 
 void main() {
-  group('Precos e prazos -', () {
-    var sigep = SigepwebPrecoPrazo(isDebug: true);
+  var sigep = Sigepweb(isDebug: true);
 
+  group('calcPrecoPrazo -', () {
     test('testa tipo de retorno', () async {
       var calcPrecoPrazo = await sigep.calcPrecoPrazo(
         cepOrigem: '70002900',
@@ -17,6 +18,36 @@ void main() {
 
       expect(
           calcPrecoPrazo.runtimeType, List<CalcPrecoPrazoItem>().runtimeType);
+    });
+  });
+
+  group('consultaCEP -', () {
+    test('tipo de retorno', () async {
+      expect(
+        await sigep.consultaCEP('70002900'),
+        isInstanceOf<ConsultaCepModel>(),
+      );
+    });
+
+    test('CEP inexistente', () async {
+      expect(
+        await sigep.consultaCEP('01000100'),
+        isInstanceOf<ConsultaCepModel>(),
+      );
+    });
+
+    test('CEP com hífem', () async {
+      expect(
+        await sigep.consultaCEP('70002-900'),
+        isInstanceOf<ConsultaCepModel>(),
+      );
+    });
+
+    test('CEP nada a ver', () {
+      expect(
+        () async => await sigep.consultaCEP('a5sdf45'),
+        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+      );
     });
   });
 
@@ -48,7 +79,7 @@ void main() {
     });
   });
 
-  group('Formata CEP', () {
+  group('Utils - Formata CEP', () {
     test('com hifen', () {
       expect(SgUtils.formataCEP('12345-678'), '12345678');
     });
