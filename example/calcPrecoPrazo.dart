@@ -1,6 +1,6 @@
 import 'package:sigepweb/sigepweb.dart';
 
-main() async {
+void main() async {
   var sigep = Sigepweb(contrato: SigepContrato.semContrato());
 
   var calcPrecoPrazo = await sigep.calcPrecoPrazo(
@@ -10,6 +10,6 @@ main() async {
   );
 
   for (var item in calcPrecoPrazo) {
-    print("${item.nome}: R\$ ${item.valor}");
+    print('${item.nome}: R\$ ${item.valor}');
   }
 }

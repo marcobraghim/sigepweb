@@ -87,8 +87,7 @@ class Sigepweb {
       }
 
       // Efetiva a consulta
-      Response<String> resp =
-          await dio.get("$endpoint/CalcPrecoPrazo", queryParameters: {
+      var resp = await dio.get('$endpoint/CalcPrecoPrazo', queryParameters: {
         'nCdEmpresa':
             contrato.codAdmin.isEmpty ? '08082650' : contrato.codAdmin,
         'sDsSenha': contrato.senha.isEmpty ? '564321' : contrato.senha,

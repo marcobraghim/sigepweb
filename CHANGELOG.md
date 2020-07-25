@@ -1,3 +1,7 @@
+# 1.0.6
+
+* Regras de acordo com package pedantic
+
 # 1.0.5
 
 * Omit type annotations for local variables.

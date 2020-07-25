@@ -13,7 +13,7 @@ class SgUtils {
   /// BRL, mas sem o prefixo R$. Este metodo vai formatar esses valores para
   /// poderem ser transformados em double
   static double toDouble(String strVal) {
-    String formatted = strVal.trim().replaceAll('.', '').replaceAll(',', '.');
+    var formatted = strVal.trim().replaceAll('.', '').replaceAll(',', '.');
     return double.tryParse(formatted) ?? 0.0;
   }
 
