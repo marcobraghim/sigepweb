@@ -45,10 +45,13 @@ class Sigepweb {
   }
 
   /// Result into a list of [CalcPrecoPrazoItemModel].
+  ///
+  /// [servicosList]: Encontre a lista padrao de servicos disponíveis
+  /// em [ServicosPostagem]
   Future<List<CalcPrecoPrazoItemModel>> calcPrecoPrazo({
     List<String> servicosList = const [
       ServicosPostagem.sedexAVista_04014,
-      // ServicosPostagem.pacAVista_04510,
+      ServicosPostagem.pacAVista_04510,
     ],
     String cepOrigem,
     String cepDestino,
@@ -71,14 +74,15 @@ class Sigepweb {
     List<CalcPrecoPrazoItemModel> result = [];
 
     try {
+      if (servicosList.isEmpty) {
+        throw SigepwebRuntimeError('Parâmetro servicosList obrigatório');
+      }
+
       Response<String> resp =
           await dio.get("$endpoint/CalcPrecoPrazo", queryParameters: {
-        // 'nCdEmpresa': isDebug ? '564321' : contrato.codAdmin,
-        // 'sDsSenha': isDebug ? '08082650' : contrato.senha,
-        'nCdEmpresa': contrato.codAdmin,
-        'sDsSenha': contrato.senha,
-        // 'nCdEmpresa': '564321',
-        // 'sDsSenha': '08082650',
+        'nCdEmpresa':
+            contrato.codAdmin.isEmpty ? '08082650' : contrato.codAdmin,
+        'sDsSenha': contrato.senha.isEmpty ? '564321' : contrato.senha,
         'nCdServico': servicosList.join(','),
         'sCepOrigem': SgUtils.formataCEP(cepOrigem),
         'sCepDestino': SgUtils.formataCEP(cepDestino),
@@ -101,10 +105,13 @@ class Sigepweb {
 
       // Captura o resultado e faz o parse
       // de XML para JSON
+      //
+      // Parker: https://github.com/shamblett/xml2json/blob/master/doc/Transforming Details.md
       var xml2json = Xml2Json();
       xml2json.parse(resp.data);
-      Map<String, dynamic> apiResult = json.decode(xml2json.toGData());
+      Map<String, dynamic> apiResult = json.decode(xml2json.toParker());
 
+      // Verifica se a estrutura do retorno veio como esperado
       if (apiResult['cResultado'] == null ||
           apiResult['cResultado']['Servicos'] == null ||
           apiResult['cResultado']['Servicos']['cServico'] == null) {
@@ -112,8 +119,24 @@ class Sigepweb {
             'Xml result format isn\'t with expected format');
       }
 
-      List servicos = apiResult['cResultado']['Servicos']['cServico'];
-      for (Map<String, dynamic> i in servicos) {
+      // Guarda o retorno em uma variavel para facilitar
+      var cServico = apiResult['cResultado']['Servicos']['cServico'];
+
+      // Verifica se houve retorno com erro
+      if (cServico is Map &&
+          cServico['Erro'] != null &&
+          cServico['Erro'] != '0') {
+        throw SigepwebRuntimeError(cServico['MsgErro']);
+      }
+
+      // Quando a resposta tem apenas um item entao ele vira como Map
+      // e nos temos que colocar esse map numa lista, por outro lado
+      // pode acontecer de vir diretamente como lista de Map
+      List cServicoList = (cServico is Map) ? [cServico] : cServico;
+
+      // Nao houve erro entao cria uma model com cada resultado da lista de
+      // retorno
+      for (Map<String, dynamic> i in cServicoList) {
         result.add(CalcPrecoPrazoItemModel.fromJson(i));
       }
     } on Exception catch (e, st) {

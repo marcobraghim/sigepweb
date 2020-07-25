@@ -17,28 +17,45 @@ void main() {
   var sigepSemContrato = Sigepweb(contrato: SigepContrato.semContrato());
 
   group('calcPrecoPrazo -', () {
-    test('testa retorno OK', () async {
+    test('retorno OK', () async {
       var calcPrecoPrazo = await sigepSemContrato.calcPrecoPrazo(
         cepOrigem: '70002900',
         cepDestino: '04547000',
         valorPeso: 1,
       );
 
+      expect(calcPrecoPrazo, isInstanceOf<List<CalcPrecoPrazoItemModel>>());
+    });
+
+    test('retorno OK para 1 servico apenas', () async {
+      var calcPrecoPrazo = await sigepSemContrato.calcPrecoPrazo(
+          cepOrigem: '70002900',
+          cepDestino: '04547000',
+          valorPeso: 1,
+          servicosList: [ServicosPostagem.sedexAVista_04014]);
+
+      expect(calcPrecoPrazo, isInstanceOf<List<CalcPrecoPrazoItemModel>>());
+    });
+
+    test('Exception esperada para homolog', () {
       expect(
-        calcPrecoPrazo.runtimeType,
-        List<CalcPrecoPrazoItemModel>().runtimeType,
+        () async => await sigepHomolog.calcPrecoPrazo(
+          cepOrigem: '70002900',
+          cepDestino: '04547000',
+          valorPeso: 1,
+        ),
+        throwsA(isInstanceOf<SigepwebRuntimeError>()),
       );
     });
 
-    test('testa Exception', () {
+    test('lista de servicos vazia', () {
       expect(
-        () async {
-          await sigepHomolog.calcPrecoPrazo(
-            cepOrigem: '70002900',
-            cepDestino: '04547000',
-            valorPeso: 1,
-          );
-        },
+        () async => await sigepHomolog.calcPrecoPrazo(
+          cepOrigem: '70002900',
+          cepDestino: '04547000',
+          valorPeso: 1,
+          servicosList: [],
+        ),
         throwsA(isInstanceOf<SigepwebRuntimeError>()),
       );
     });
