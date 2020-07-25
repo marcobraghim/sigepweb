@@ -18,7 +18,10 @@ class Sigepweb {
   String _homEndpoint =
       'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
-  /// Endpoint para caso de ambiente de producao
+  /// Endpoint para caso de ambiente de producao.
+  ///
+  /// Este endpoint será usado quando [isDebug] for falso e nesse caso é necessário
+  /// informar o [contrato]
   String _prodEndpoint =
       'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
@@ -30,17 +33,22 @@ class Sigepweb {
   Sigepweb({
     this.contrato,
     this.isDebug = false,
-  }) : assert(contrato != null || isDebug) {
+  }) {
+    if (contrato == null && !isDebug) {
+      throw SigepwebRuntimeError(
+          'Obrigatório informar o contrato ou estar em modo debug');
+    }
+
     if (isDebug) {
-      contrato = SigepContrato.semContrato();
+      contrato = SigepContrato.homolog();
     }
   }
 
-  /// Result into a list of [CalcPrecoPrazoItem].
+  /// Result into a list of [CalcPrecoPrazoItemModel].
   Future<List<CalcPrecoPrazoItemModel>> calcPrecoPrazo({
     List<String> servicosList = const [
       ServicosPostagem.sedexAVista_04014,
-      ServicosPostagem.pacAVista_04510,
+      // ServicosPostagem.pacAVista_04510,
     ],
     String cepOrigem,
     String cepDestino,
@@ -65,8 +73,12 @@ class Sigepweb {
     try {
       Response<String> resp =
           await dio.get("$endpoint/CalcPrecoPrazo", queryParameters: {
+        // 'nCdEmpresa': isDebug ? '564321' : contrato.codAdmin,
+        // 'sDsSenha': isDebug ? '08082650' : contrato.senha,
         'nCdEmpresa': contrato.codAdmin,
         'sDsSenha': contrato.senha,
+        // 'nCdEmpresa': '564321',
+        // 'sDsSenha': '08082650',
         'nCdServico': servicosList.join(','),
         'sCepOrigem': SgUtils.formataCEP(cepOrigem),
         'sCepDestino': SgUtils.formataCEP(cepDestino),
@@ -186,8 +198,8 @@ class Sigepweb {
     }
   }
 
-  /// Determina a URL da API a partir do ambiente de execussao atual
-  /// usando [isDebug]
+  /// Determina a URL da API a partir do ambiente de execução atual
+  /// usando [isDebug] como parâmetro
   String _getEndpoint() {
     return isDebug ? _homEndpoint : _prodEndpoint;
   }

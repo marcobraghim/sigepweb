@@ -22,8 +22,8 @@ class SigepContrato {
   /// Constructor to the clients without contract
   SigepContrato.semContrato() {
     usuario = '';
-    senha = '564321';
-    codAdmin = '08082650';
+    senha = '';
+    codAdmin = '';
     numContrato = '';
     numCartao = '';
     cnpj = '';

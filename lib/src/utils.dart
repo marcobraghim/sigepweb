@@ -31,18 +31,12 @@ class SgUtils {
   /// will be expecting 1, 2 and 3.
   static String codFormato(FormatoEncomenda formato) {
     String result;
-    switch (formato) {
-      case FormatoEncomenda.caixa:
-        result = '1';
-        break;
-      case FormatoEncomenda.rolo:
-        result = '2';
-        break;
-      case FormatoEncomenda.envelope:
-        result = '3';
-        break;
-      default:
-        throw SigepwebRuntimeError('Formato da encomenda unknown');
+    if (formato == FormatoEncomenda.caixa) {
+      result = '1';
+    } else if (formato == FormatoEncomenda.rolo) {
+      result = '2';
+    } else if (formato == FormatoEncomenda.envelope) {
+      result = '3';
     }
     return result;
   }

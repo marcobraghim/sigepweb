@@ -6,11 +6,19 @@ import 'package:sigepweb/src/models/calc_preco_prazo_item_model.dart';
 import 'package:sigepweb/src/models/consulta_cep_model.dart';
 
 void main() {
-  var sigep = Sigepweb(isDebug: true);
+  test('Instância sem contrato', () {
+    expect(
+      () => Sigepweb(),
+      throwsA(isInstanceOf<SigepwebRuntimeError>()),
+    );
+  });
+
+  var sigepHomolog = Sigepweb(isDebug: true);
+  var sigepSemContrato = Sigepweb(contrato: SigepContrato.semContrato());
 
   group('calcPrecoPrazo -', () {
-    test('testa tipo de retorno', () async {
-      var calcPrecoPrazo = await sigep.calcPrecoPrazo(
+    test('testa retorno OK', () async {
+      var calcPrecoPrazo = await sigepSemContrato.calcPrecoPrazo(
         cepOrigem: '70002900',
         cepDestino: '04547000',
         valorPeso: 1,
@@ -21,39 +29,52 @@ void main() {
         List<CalcPrecoPrazoItemModel>().runtimeType,
       );
     });
+
+    test('testa Exception', () {
+      expect(
+        () async {
+          await sigepHomolog.calcPrecoPrazo(
+            cepOrigem: '70002900',
+            cepDestino: '04547000',
+            valorPeso: 1,
+          );
+        },
+        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+      );
+    });
   });
 
   group('consultaCEP -', () {
     test('tipo de retorno', () async {
       expect(
-        await sigep.consultaCEP('70002900'),
+        await sigepHomolog.consultaCEP('70002900'),
         isInstanceOf<ConsultaCepModel>(),
       );
     });
 
     test('CEP inexistente', () async {
       expect(
-        await sigep.consultaCEP('01000100'),
+        await sigepHomolog.consultaCEP('01000100'),
         isInstanceOf<ConsultaCepModel>(),
       );
     });
 
     test('CEP com hífem', () async {
       expect(
-        await sigep.consultaCEP('70002-900'),
+        await sigepHomolog.consultaCEP('70002-900'),
         isInstanceOf<ConsultaCepModel>(),
       );
     });
 
     test('CEP nada a ver', () {
       expect(
-        () async => await sigep.consultaCEP('a5sdf45'),
+        () async => await sigepHomolog.consultaCEP('a5sdf45'),
         throwsA(isInstanceOf<SigepwebRuntimeError>()),
       );
     });
   });
 
-  group('Utils - String para double:', () {
+  group('SgUtils - String para double:', () {
     test("'27,80' para 27.80", () {
       expect(SgUtils.toDouble('27,80'), 27.80);
     });
@@ -67,7 +88,7 @@ void main() {
     });
   });
 
-  group('Utils - Formato de encomenda:', () {
+  group('SgUtils - Formato de encomenda:', () {
     test('Caixa', () {
       expect(SgUtils.codFormato(FormatoEncomenda.caixa), '1');
     });
@@ -81,7 +102,7 @@ void main() {
     });
   });
 
-  group('Utils - Formata CEP', () {
+  group('SgUtils - Formata CEP', () {
     test('com hifen', () {
       expect(SgUtils.formataCEP('12345-678'), '12345678');
     });

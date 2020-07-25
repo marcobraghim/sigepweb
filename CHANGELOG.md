@@ -1,3 +1,7 @@
+# 1.0.2
+
+* Doc update, CalcPrecoPrazoItem was changed to CalcPrecoPrazoItemModel
+
 # 1.0.1
 
 * Exposing models
