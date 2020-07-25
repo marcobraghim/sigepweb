@@ -19,6 +19,23 @@ class CalcPrecoPrazoItemModel {
   double valorSemAdicionais;
   Map obsFim;
 
+  /// Construtor padrao
+  CalcPrecoPrazoItemModel({
+    this.nome,
+    this.codigo,
+    this.valor,
+    this.prazoEntrega,
+    this.valorMaoPropria,
+    this.valorAvisoRecebimento,
+    this.valorDeclarado,
+    this.entregaDomiciliar,
+    this.entregaSabado,
+    this.codErro,
+    this.msgErro,
+    this.valorSemAdicionais,
+    this.obsFim,
+  });
+
   /// Popula a model a partir do resultado do servico calcPrecoPrazo
   CalcPrecoPrazoItemModel.fromJson(Map<String, dynamic> json)
       : codigo = json['Codigo']?.padLeft(5, '0'),

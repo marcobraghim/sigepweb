@@ -139,4 +139,55 @@ void main() {
       );
     });
   });
+
+  group('Models -', () {
+    group('calc_preco_prazo_item_model', () {
+      var model = CalcPrecoPrazoItemModel();
+
+      test('toJson', () {
+        expect(model.toJson(), isA<Map<String, dynamic>>());
+      });
+
+      test('toString', () {
+        expect(model.toString(), isA<String>());
+      });
+    });
+
+    group('consulta_cep_model', () {
+      var model = ConsultaCepModel();
+
+      test('toJson', () {
+        expect(model.toJson(), isA<Map<String, dynamic>>());
+      });
+
+      test('toString', () {
+        expect(model.toString(), isA<String>());
+      });
+    });
+
+    test('contrato - Instância', () {
+      var modelContrato = SigepContrato();
+      expect(modelContrato, isA<SigepContrato>());
+    });
+  });
+
+  group('Exceptions', () {
+    group('sigepweb_runtime_error', () {
+      try {
+        throw SigepwebRuntimeError();
+      } on SigepwebRuntimeError catch (e) {
+        test('Instancia', () {
+          expect(e, isA<SigepwebRuntimeError>());
+        });
+
+        test('toString', () {
+          expect(e.toString(), isA<String>());
+        });
+
+        test('StackTrace', () {
+          expect(e.stackTrace, isA<StackTrace>());
+        });
+      }
+    });
+  });
 }

@@ -4,8 +4,7 @@ class SigepwebRuntimeError implements Error {
 
   const SigepwebRuntimeError([this.msg]);
 
-  @override
-  StackTrace get stackTrace => stackTrace;
+  StackTrace get stackTrace => StackTrace.current;
 
   @override
   String toString() =>
