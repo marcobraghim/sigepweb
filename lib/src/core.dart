@@ -77,10 +77,9 @@ class Sigepweb {
     //
     // O Endpoint para calculo de preco e prazo eh o unico diferente
     // (ate agora)
-    final String endpoint =
-        'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
+    final endpoint = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
 
-    List<CalcPrecoPrazoItemModel> result = [];
+    var result = <CalcPrecoPrazoItemModel>[];
 
     try {
       if (servicosList.isEmpty) {

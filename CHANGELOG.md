@@ -1,3 +1,7 @@
+# 1.0.5
+
+* Omit type annotations for local variables.
+
 # 1.0.4
 
 * `_homEndpoint` e `_prodEndpoint` agora campo final.
