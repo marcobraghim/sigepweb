@@ -1,5 +1,4 @@
-/// Provide a contract to the connections
-/// from API
+/// Determina um contrato para ser usado nos servicos
 class SigepContrato {
   String usuario;
   String senha;
@@ -8,8 +7,8 @@ class SigepContrato {
   String numCartao;
   String cnpj;
 
-  /// Default constructor.
-  /// MUST be used when the client do have a contract
+  /// Construtor padrão.
+  /// DEVE ser usado quando o cliente de fato tem um contrato
   SigepContrato({
     this.usuario,
     this.senha,
@@ -19,7 +18,7 @@ class SigepContrato {
     this.cnpj,
   });
 
-  /// Constructor to the clients without contract
+  /// Usado para clientes que nao tem contrato
   SigepContrato.semContrato() {
     usuario = '';
     senha = '';
@@ -29,7 +28,7 @@ class SigepContrato {
     cnpj = '';
   }
 
-  /// Contract to make tests over homolog environment
+  /// Usado para testes em ambiente de homologacao
   SigepContrato.homolog() {
     usuario = 'sigep';
     senha = 'n5f9t8';

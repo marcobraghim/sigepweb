@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-/// Model to the return of service consultaCEP
+/// Model para retorno do servico consultaCEP
 class ConsultaCepModel {
   String cep;
   String logradouro;
@@ -9,7 +9,7 @@ class ConsultaCepModel {
   String cidade;
   String estado;
 
-  /// Default constructor
+  /// Construtor padrao
   ConsultaCepModel({
     this.cep,
     this.logradouro,
@@ -19,7 +19,7 @@ class ConsultaCepModel {
     this.estado,
   });
 
-  /// Constructor to json data
+  /// Construtor para popular model com resultado do servico consultaCEP
   ConsultaCepModel.fromJson(Map<String, dynamic> json)
       : cep = json['cep']['\$t'],
         logradouro = json['end']['\$t'],
@@ -28,7 +28,7 @@ class ConsultaCepModel {
         cidade = json['cidade']['\$t'],
         estado = json['uf']['\$t'];
 
-  /// Translate this model to json
+  /// Traduz esta model para json
   Map<String, dynamic> toJson() => {
         'cep': cep,
         'logradouro': logradouro,
@@ -38,7 +38,7 @@ class ConsultaCepModel {
         'estado': estado,
       };
 
-  /// Prints this model as a valid string
+  /// Imprime esta model como um json valido
   @override
   String toString() {
     return json.encode(toJson());

@@ -14,10 +14,12 @@ import 'models/contrato.dart';
 
 /// A classe principal
 class Sigepweb {
+  ///
   /// Endpoint para caso de ambiente de testes
   String _homEndpoint =
       'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
+  ///
   /// Endpoint para caso de ambiente de producao.
   ///
   /// Este endpoint será usado quando [isDebug] for falso e nesse caso é necessário
@@ -26,10 +28,16 @@ class Sigepweb {
       'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
   final bool isDebug;
-  SigepContrato contrato;
   final dio = Dio();
 
-  /// Constructor
+  SigepContrato contrato;
+
+  /// Construtor padrao.
+  /// Voce pode iniciar esta classe passando um [contrato] ou informando [isDebug]
+  /// como true que usara entao o ambiente de homologacao para testes.
+  ///
+  /// Quando [isDebug] for informado como true então o contrato sera sobrescrito
+  /// para homolog.
   Sigepweb({
     this.contrato,
     this.isDebug = false,
@@ -44,10 +52,11 @@ class Sigepweb {
     }
   }
 
-  /// Result into a list of [CalcPrecoPrazoItemModel].
+  /// Efetua os calculos de preco e prazo para uma encomenda.
+  /// Resulta numa lista de [CalcPrecoPrazoItemModel].
   ///
-  /// [servicosList]: Encontre a lista padrao de servicos disponíveis
-  /// em [ServicosPostagem]
+  /// [servicosList] é onde você informa quais os servicos que quer cotacao.
+  /// Encontre a lista padrao de servicos disponíveis em [ServicosPostagem].
   Future<List<CalcPrecoPrazoItemModel>> calcPrecoPrazo({
     List<String> servicosList = const [
       ServicosPostagem.sedexAVista_04014,
@@ -75,9 +84,10 @@ class Sigepweb {
 
     try {
       if (servicosList.isEmpty) {
-        throw SigepwebRuntimeError('Parâmetro servicosList obrigatório');
+        throw SigepwebRuntimeError("Parâmetro 'servicosList' obrigatório");
       }
 
+      // Efetiva a consulta
       Response<String> resp =
           await dio.get("$endpoint/CalcPrecoPrazo", queryParameters: {
         'nCdEmpresa':
@@ -99,6 +109,7 @@ class Sigepweb {
         'nIndicaCalculo': '3'
       });
 
+      // Valida resposta
       if (resp.statusCode != 200 || resp.data.isEmpty) {
         throw SigepwebRuntimeError();
       }
@@ -151,7 +162,7 @@ class Sigepweb {
       }
 
       throw SigepwebRuntimeError(
-          'Internal error Sigepweb package. Please consider open an issue into https://github.com/marcobraghim/sigepweb/issues\nOriginal exception was: ${e.toString()}');
+          'Erro interno do package. Por favor considere abrir uma questão em https://github.com/marcobraghim/sigepweb/issues\nMensagem da exception foi: ${e.toString()}');
     }
     return result;
   }
@@ -164,6 +175,9 @@ class Sigepweb {
     var endpoint = _getEndpoint();
 
     try {
+      //
+      // No link abaixo você pode entender como fazer uma consulta SOAP por
+      // uma ext do navegador. A logica aqui eh a mesma
       // https://medium.com/@markos12/consumindo-o-webservice-dos-correios-soap-via-extensão-do-1b087bf290fb
 
       var envelope = '''
@@ -179,12 +193,14 @@ class Sigepweb {
         </soapenv:Envelope>
       ''';
 
+      // Efetiva a consulta
       var response = await http.post(
         endpoint,
         headers: {'Content-Type': 'text/xml; encoding=iso-8859-1'},
         body: envelope,
       );
 
+      // valida resposta
       if (response.statusCode != 200 || response.body.isEmpty) {
         throw SigepwebRuntimeError();
       }
@@ -217,7 +233,7 @@ class Sigepweb {
       }
 
       throw SigepwebRuntimeError(
-          'Internal error Sigepweb package. Please consider open an issue into https://github.com/marcobraghim/sigepweb/issues\nOriginal exception was: ${e.toString()}');
+          'Erro interno do package. Por favor considere abrir uma questão em https://github.com/marcobraghim/sigepweb/issues\nMensagem da exception foi: ${e.toString()}');
     }
   }
 

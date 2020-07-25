@@ -1,4 +1,4 @@
-/// Main package library
+/// Biblioteca principal
 library sigepweb;
 
 /// Export files

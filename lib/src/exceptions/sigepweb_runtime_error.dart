@@ -1,4 +1,4 @@
-/// Identify that the error throws from this library
+/// Identifica que um erro foi capturado ou gerado dentro dessa biblioteca
 class SigepwebRuntimeError implements Error {
   final String msg;
 
@@ -10,5 +10,5 @@ class SigepwebRuntimeError implements Error {
   @override
   String toString() =>
       msg ??
-      'Correios API is probably out of service. It shouldn\'t, but happen all the time...';
+      'API dos Correios provavelmente fora do ar. Não deveria, mas acontece o tempo todo...';
 }

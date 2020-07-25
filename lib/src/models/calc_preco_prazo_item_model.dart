@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
 
-/// Model to the return of service CalcPrecoPrazo
+/// Model para retorno do servico calcPrecoPrazo
 class CalcPrecoPrazoItemModel {
   String nome;
   String codigo;
@@ -19,7 +19,7 @@ class CalcPrecoPrazoItemModel {
   double valorSemAdicionais;
   Map obsFim;
 
-  /// Constructor from json result
+  /// Popula a model a partir do resultado do servico calcPrecoPrazo
   CalcPrecoPrazoItemModel.fromJson(Map<String, dynamic> json)
       : codigo = json['Codigo']?.padLeft(5, '0'),
         valor = SgUtils.toDouble(json['Valor']),
@@ -38,7 +38,7 @@ class CalcPrecoPrazoItemModel {
     nome = ServicosPostagem.nomeServico[codigo] ?? 'Correios';
   }
 
-  /// Translate this model to json
+  /// Traduz esta model para json
   Map<String, dynamic> toJson() => {
         'nome': nome,
         'codigo': codigo,
@@ -55,7 +55,7 @@ class CalcPrecoPrazoItemModel {
         'obsFim': obsFim,
       };
 
-  /// Prints this model as a valid string
+  /// Imprime esta model como um json valido
   @override
   String toString() {
     return json.encode(toJson());

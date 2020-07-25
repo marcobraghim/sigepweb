@@ -9,7 +9,7 @@ void main() {
   test('Instância sem contrato', () {
     expect(
       () => Sigepweb(),
-      throwsA(isInstanceOf<SigepwebRuntimeError>()),
+      throwsA(isA<SigepwebRuntimeError>()),
     );
   });
 
@@ -24,7 +24,7 @@ void main() {
         valorPeso: 1,
       );
 
-      expect(calcPrecoPrazo, isInstanceOf<List<CalcPrecoPrazoItemModel>>());
+      expect(calcPrecoPrazo, isA<List<CalcPrecoPrazoItemModel>>());
     });
 
     test('retorno OK para 1 servico apenas', () async {
@@ -34,7 +34,7 @@ void main() {
           valorPeso: 1,
           servicosList: [ServicosPostagem.sedexAVista_04014]);
 
-      expect(calcPrecoPrazo, isInstanceOf<List<CalcPrecoPrazoItemModel>>());
+      expect(calcPrecoPrazo, isA<List<CalcPrecoPrazoItemModel>>());
     });
 
     test('Exception esperada para homolog', () {
@@ -44,7 +44,7 @@ void main() {
           cepDestino: '04547000',
           valorPeso: 1,
         ),
-        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+        throwsA(isA<SigepwebRuntimeError>()),
       );
     });
 
@@ -56,7 +56,7 @@ void main() {
           valorPeso: 1,
           servicosList: [],
         ),
-        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+        throwsA(isA<SigepwebRuntimeError>()),
       );
     });
   });
@@ -65,28 +65,28 @@ void main() {
     test('tipo de retorno', () async {
       expect(
         await sigepHomolog.consultaCEP('70002900'),
-        isInstanceOf<ConsultaCepModel>(),
+        isA<ConsultaCepModel>(),
       );
     });
 
     test('CEP inexistente', () async {
       expect(
         await sigepHomolog.consultaCEP('01000100'),
-        isInstanceOf<ConsultaCepModel>(),
+        isA<ConsultaCepModel>(),
       );
     });
 
     test('CEP com hífem', () async {
       expect(
         await sigepHomolog.consultaCEP('70002-900'),
-        isInstanceOf<ConsultaCepModel>(),
+        isA<ConsultaCepModel>(),
       );
     });
 
     test('CEP nada a ver', () {
       expect(
         () async => await sigepHomolog.consultaCEP('a5sdf45'),
-        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+        throwsA(isA<SigepwebRuntimeError>()),
       );
     });
   });
@@ -135,7 +135,7 @@ void main() {
     test('nada a ver', () {
       expect(
         () => SgUtils.formataCEP('654as6df4'),
-        throwsA(isInstanceOf<SigepwebRuntimeError>()),
+        throwsA(isA<SigepwebRuntimeError>()),
       );
     });
   });

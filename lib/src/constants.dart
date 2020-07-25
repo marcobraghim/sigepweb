@@ -1,8 +1,11 @@
-/// Formats for order type
+/// Formatos de encomenda aceitos pelos Correios. Para transformar isso
+/// em seus respectivos numeros utilize o metodo estatico [SgUtils.codFormato]
 enum FormatoEncomenda { caixa, rolo, envelope }
 
-/// Bellow we have the values of services provided
-/// by Correios to customers who don't have a contract
+/// Abaixo temos a lista de servicos providos pelos Correios
+/// para clientes que nao tem contrato.
+///
+/// @todo buscar contrato do cliente para injetar os servicos dele
 class ServicosPostagem {
   static const sedexAVista_04014 = '04014';
   static const pacAVista_04510 = '04510';
@@ -16,6 +19,5 @@ class ServicosPostagem {
     ServicosPostagem.sedex12AVista_04782: 'Sedex 12',
     ServicosPostagem.sedex10AVista_04790: 'Sedex 10',
     ServicosPostagem.sedexHojeAVista_04804: 'Sedex Hoje',
-    // @todo buscar contrato do cliente para injetar os servicos dele
   };
 }
