@@ -1,3 +1,7 @@
+# 1.0.4
+
+* `_homEndpoint` e `_prodEndpoint` agora campo final.
+
 # 1.0.3
 
 * Realizar testes sem incluir o flutter efetivamente como dependencia. Este package

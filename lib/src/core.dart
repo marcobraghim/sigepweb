@@ -16,7 +16,7 @@ import 'models/contrato.dart';
 class Sigepweb {
   ///
   /// Endpoint para caso de ambiente de testes
-  String _homEndpoint =
+  final _homEndpoint =
       'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
   ///
@@ -24,7 +24,7 @@ class Sigepweb {
   ///
   /// Este endpoint será usado quando [isDebug] for falso e nesse caso é necessário
   /// informar o [contrato]
-  String _prodEndpoint =
+  final _prodEndpoint =
       'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
   final bool isDebug;
