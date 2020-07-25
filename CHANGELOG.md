@@ -1,3 +1,10 @@
+# 1.0.3
+
+* Realizar testes sem incluir o flutter efetivamente como dependencia. Este package
+deve poder ser usado em qualquer projeto Dart. 
+* Ps.: Eu ainda não sei se o package `flutter_coverage_badge` vai fazer o projeto
+ser notado como dependente do Flutter.
+
 # 1.0.2
 
 * Bug de referencia CalcPrecoPrazoItem foi mudado para CalcPrecoPrazoItemModel

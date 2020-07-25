@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/constants.dart';
 import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
