@@ -22,6 +22,8 @@ O fato é que são muitos métodos para implementar e por enquanto eu sinceramen
 
 Ajude este package a crescer e chegar ao ponto de oferecer todos os serviços que a API disponibiliza. Deixe seu Pull-Request. Fique também a vontade para entrar em contato comigo.
 
+**IMPORTANTE**: Só vou aprovar PR's com testes. TDD na veia!
+
 ## Exemplo
 
 ### Calcule Precos e Prazos para suas encomendas

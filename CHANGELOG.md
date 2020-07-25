@@ -1,6 +1,9 @@
 # 1.0.2
 
-* Doc update, CalcPrecoPrazoItem was changed to CalcPrecoPrazoItemModel
+* Bug de referencia CalcPrecoPrazoItem foi mudado para CalcPrecoPrazoItemModel
+* Foi feita tambem uma refatoracao em todo o código para traduzir tudo para PtBR
+* O metodo calcPrecoPrazo agora usa a convenção Parker (mais simples) de XML para JSON
+* Foram adicionados um pouco mais de testes e o coverage aumentou um pouquinho
 
 # 1.0.1
 
