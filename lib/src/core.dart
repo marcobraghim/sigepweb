@@ -1,15 +1,15 @@
 library sigepweb;
 
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:sigepweb/sigepweb.dart';
 import 'package:sigepweb/src/exceptions/sigepweb_runtime_error.dart';
 import 'package:sigepweb/src/models/calc_preco_prazo_item_model.dart';
 import 'package:sigepweb/src/models/consulta_cep_model.dart';
 import 'package:xml2json/xml2json.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'models/contrato.dart';
 
@@ -17,16 +17,14 @@ import 'models/contrato.dart';
 class Sigepweb {
   ///
   /// Endpoint para caso de ambiente de testes
-  final _homEndpoint =
-      'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
+  final _homEndpoint = 'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
   ///
   /// Endpoint para caso de ambiente de producao.
   ///
   /// Este endpoint será usado quando [isDebug] for falso e nesse caso é necessário
   /// informar o [contrato]
-  final _prodEndpoint =
-      'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
+  final _prodEndpoint = 'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
 
   final bool isDebug;
   final dio = Dio();
@@ -44,8 +42,7 @@ class Sigepweb {
     this.isDebug = false,
   }) {
     if (contrato == null && !isDebug) {
-      throw SigepwebRuntimeError(
-          'Obrigatório informar o contrato ou estar em modo debug');
+      throw SigepwebRuntimeError('Obrigatório informar o contrato ou estar em modo debug');
     }
 
     if (isDebug) {
@@ -75,10 +72,16 @@ class Sigepweb {
     double valorDeclarado = 0.0,
     bool avisoRecebimento = false,
   }) async {
+    // If it is not Android nor iOS so we assume that it is Web.
+    // It is made that way to avoid dependency of Flutter on this package,
+    // do you know a better way to do that? Tell us...
+    final isWeb = !Platform.isAndroid && !Platform.isIOS;
+
     //
     // O Endpoint para calculo de preco e prazo eh o unico diferente
     // (ate agora)
-    final endpoint = '${kIsWeb ? "https://cors-anywhere.herokuapp.com/" : ""}http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
+    final endpoint =
+        '${isWeb ? "https://cors-anywhere.herokuapp.com/" : ""}http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
 
     var result = <CalcPrecoPrazoItemModel>[];
 
@@ -89,8 +92,7 @@ class Sigepweb {
 
       // Efetiva a consulta
       var resp = await dio.get('$endpoint/CalcPrecoPrazo', queryParameters: {
-        'nCdEmpresa':
-            contrato.codAdmin.isEmpty ? '08082650' : contrato.codAdmin,
+        'nCdEmpresa': contrato.codAdmin.isEmpty ? '08082650' : contrato.codAdmin,
         'sDsSenha': contrato.senha.isEmpty ? '564321' : contrato.senha,
         'nCdServico': servicosList.join(','),
         'sCepOrigem': SgUtils.formataCEP(cepOrigem),
@@ -125,17 +127,14 @@ class Sigepweb {
       if (apiResult['cResultado'] == null ||
           apiResult['cResultado']['Servicos'] == null ||
           apiResult['cResultado']['Servicos']['cServico'] == null) {
-        throw SigepwebRuntimeError(
-            'Xml result format isn\'t with expected format');
+        throw SigepwebRuntimeError('Xml result format isn\'t with expected format');
       }
 
       // Guarda o retorno em uma variavel para facilitar
       var cServico = apiResult['cResultado']['Servicos']['cServico'];
 
       // Verifica se houve retorno com erro
-      if (cServico is Map &&
-          cServico['Erro'] != null &&
-          cServico['Erro'] != '0') {
+      if (cServico is Map && cServico['Erro'] != null && cServico['Erro'] != '0') {
         throw SigepwebRuntimeError(cServico['MsgErro']);
       }
 
@@ -210,8 +209,7 @@ class Sigepweb {
       xml2json.parse(response.body);
       Map<String, dynamic> apiResult = json.decode(xml2json.toGData());
 
-      var soapBodyEnvelope =
-          apiResult['soap\$Envelope']['soap\$Body']['ns2\$consultaCEPResponse'];
+      var soapBodyEnvelope = apiResult['soap\$Envelope']['soap\$Body']['ns2\$consultaCEPResponse'];
 
       if (soapBodyEnvelope['return'] == null) {
         return ConsultaCepModel();
