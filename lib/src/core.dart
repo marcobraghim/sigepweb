@@ -9,6 +9,7 @@ import 'package:sigepweb/src/models/calc_preco_prazo_item_model.dart';
 import 'package:sigepweb/src/models/consulta_cep_model.dart';
 import 'package:xml2json/xml2json.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'models/contrato.dart';
 
@@ -77,7 +78,7 @@ class Sigepweb {
     //
     // O Endpoint para calculo de preco e prazo eh o unico diferente
     // (ate agora)
-    final endpoint = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
+    final endpoint = '${kIsWeb ? "https://cors-anywhere.herokuapp.com/" : ""}http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
 
     var result = <CalcPrecoPrazoItemModel>[];
 
