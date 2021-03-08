@@ -1,3 +1,13 @@
+# 1.0.8
+
+* Usuário pode escolher se quer usar HTTP (default) ou HTTPS 
+na requisição a CalcPrecoPrazo. Para isso é necessário definir
+na instanciação da classe `Sigepweb` o atributo `useSSL`
+
+# 1.0.7
+
+* CORS policy para requisição via web
+
 # 1.0.6
 
 * Regras de acordo com package pedantic
