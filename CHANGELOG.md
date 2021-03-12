@@ -1,3 +1,10 @@
+# 2.0.0-beta
+
+* Flutter 2 compatibility - `We are Null-safety`!
+* Apesar do usuário poder escolher SSL, todos os testes sem ele estão retornando OK
+* Ao rodar o projeto por linha de comando use o attr `isDebug` para evitar o fix
+de cors feito para funcionar com versões web.
+
 # 1.0.8
 
 * Usuário pode escolher se quer usar HTTP (default) ou HTTPS 

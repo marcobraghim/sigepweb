@@ -1,7 +1,7 @@
 library sigepweb;
 
 import 'dart:convert';
-import 'dart:io' show Platform;
+import 'dart:io' show Platform, HttpStatus;
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +30,7 @@ class Sigepweb {
   final bool isDebug;
   final dio = Dio();
 
-  SigepContrato contrato;
+  SigepContrato? contrato;
 
   /// Construtor padrao.
   /// Voce pode iniciar esta classe passando um [contrato] ou informando [isDebug]
@@ -62,8 +62,8 @@ class Sigepweb {
       ServicosPostagem.sedexAVista_04014,
       ServicosPostagem.pacAVista_04510,
     ],
-    String cepOrigem,
-    String cepDestino,
+    required String cepOrigem,
+    required String cepDestino,
     double valorPeso = .5,
     FormatoEncomenda formatoEncomenda = FormatoEncomenda.caixa,
     int comprimento = 20,
@@ -80,12 +80,13 @@ class Sigepweb {
     final isWeb = !Platform.isAndroid && !Platform.isIOS;
 
     // Vai definir se a base do endpoint deverá usar HTTPS ou apenas HTTP
+    // final baseEndpoint = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
     final baseEndpoint = 'http${useSSL ? 's' : ''}://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx';
 
     //
     // O Endpoint para calculo de preco e prazo eh o unico diferente
     // (ate agora)
-    final endpoint = '${isWeb ? "https://cors-anywhere.herokuapp.com/" : ""}$baseEndpoint';
+    final endpoint = '${(isWeb && !isDebug) ? "https://cors-anywhere.herokuapp.com/" : ""}$baseEndpoint';
 
     var result = <CalcPrecoPrazoItemModel>[];
 
@@ -96,8 +97,8 @@ class Sigepweb {
 
       // Efetiva a consulta
       var resp = await dio.get('$endpoint/CalcPrecoPrazo', queryParameters: {
-        'nCdEmpresa': contrato.codAdmin.isEmpty ? '08082650' : contrato.codAdmin,
-        'sDsSenha': contrato.senha.isEmpty ? '564321' : contrato.senha,
+        'nCdEmpresa': contrato!.codAdmin!.isEmpty ? '08082650' : contrato!.codAdmin,
+        'sDsSenha': contrato!.senha!.isEmpty ? '564321' : contrato!.senha,
         'nCdServico': servicosList.join(','),
         'sCepOrigem': SgUtils.formataCEP(cepOrigem),
         'sCepDestino': SgUtils.formataCEP(cepDestino),
@@ -115,7 +116,7 @@ class Sigepweb {
       });
 
       // Valida resposta
-      if (resp.statusCode != 200 || resp.data.isEmpty) {
+      if (resp.statusCode != HttpStatus.ok || resp.data.isEmpty) {
         throw SigepwebRuntimeError();
       }
 
@@ -197,13 +198,13 @@ class Sigepweb {
 
       // Efetiva a consulta
       var response = await http.post(
-        endpoint,
+        Uri.parse(endpoint),
         headers: {'Content-Type': 'text/xml; encoding=iso-8859-1'},
         body: envelope,
       );
 
       // valida resposta
-      if (response.statusCode != 200 || response.body.isEmpty) {
+      if (response.statusCode != HttpStatus.ok || response.body.isEmpty) {
         throw SigepwebRuntimeError();
       }
 

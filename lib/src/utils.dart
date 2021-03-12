@@ -25,8 +25,7 @@ class SgUtils {
     cep = cep.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (cep.length < 8) {
-      throw SigepwebRuntimeError(
-          'Código do CEP inválido, deve numérico com 8 posições');
+      throw SigepwebRuntimeError('Código do CEP inválido, deve numérico com 8 posições');
     }
     return cep.substring(0, 8);
   }
@@ -35,10 +34,8 @@ class SgUtils {
   /// de encomendas de caixa, rolo e envelope os valores respectivamente 1, 2 e
   /// 3
   static String codFormato(FormatoEncomenda formato) {
-    String result;
-    if (formato == FormatoEncomenda.caixa) {
-      result = '1';
-    } else if (formato == FormatoEncomenda.rolo) {
+    var result = '1';
+    if (formato == FormatoEncomenda.rolo) {
       result = '2';
     } else if (formato == FormatoEncomenda.envelope) {
       result = '3';

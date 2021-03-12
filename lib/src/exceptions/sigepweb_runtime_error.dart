@@ -1,6 +1,6 @@
 /// Identifica que um erro foi capturado ou gerado dentro dessa biblioteca
 class SigepwebRuntimeError implements Error {
-  final String msg;
+  final String? msg;
 
   const SigepwebRuntimeError([this.msg]);
 

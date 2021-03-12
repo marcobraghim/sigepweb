@@ -1,7 +1,7 @@
 import 'package:sigepweb/sigepweb.dart';
 
 void main() async {
-  var sigep = Sigepweb(contrato: SigepContrato.semContrato());
+  var sigep = Sigepweb(contrato: SigepContrato.semContrato(), isDebug: true);
 
   var calcPrecoPrazo = await sigep.calcPrecoPrazo(
     cepOrigem: '70002900',

@@ -5,19 +5,19 @@ import 'package:sigepweb/src/constants.dart';
 
 /// Model para retorno do servico calcPrecoPrazo
 class CalcPrecoPrazoItemModel {
-  String nome;
-  String codigo;
-  double valor;
-  int prazoEntrega;
-  double valorMaoPropria;
-  double valorAvisoRecebimento;
-  double valorDeclarado;
-  bool entregaDomiciliar;
-  bool entregaSabado;
-  String codErro;
-  Map msgErro;
-  double valorSemAdicionais;
-  Map obsFim;
+  String? nome;
+  String? codigo;
+  double? valor;
+  int? prazoEntrega;
+  double? valorMaoPropria;
+  double? valorAvisoRecebimento;
+  double? valorDeclarado;
+  bool? entregaDomiciliar;
+  bool? entregaSabado;
+  String? codErro;
+  Map? msgErro;
+  double? valorSemAdicionais;
+  Map? obsFim;
 
   /// Construtor padrao
   CalcPrecoPrazoItemModel({
@@ -52,7 +52,7 @@ class CalcPrecoPrazoItemModel {
         obsFim = json['obsFim'] {
     //
     // with the code we set the name of the service
-    nome = ServicosPostagem.nomeServico[codigo] ?? 'Correios';
+    nome = ServicosPostagem.nomeServico[codigo!] ?? 'Correios';
   }
 
   /// Traduz esta model para json

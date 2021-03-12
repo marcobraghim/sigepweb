@@ -2,12 +2,12 @@ import 'dart:convert';
 
 /// Model para retorno do servico consultaCEP
 class ConsultaCepModel {
-  String cep;
-  String logradouro;
-  String complemento;
-  String bairro;
-  String cidade;
-  String estado;
+  String? cep;
+  String? logradouro;
+  String? complemento;
+  String? bairro;
+  String? cidade;
+  String? estado;
 
   /// Construtor padrao
   ConsultaCepModel({
